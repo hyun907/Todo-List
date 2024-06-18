@@ -20,6 +20,19 @@ body {
   background-color: #547e55;
 }
 
+body::before {
+  content: "";
+  background: url(assets/backgroundtxt.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0.3;
+  position: absolute;
+  top: 500px;
+  left: 0;
+  right: 0px;
+  bottom: 0px;
+}
+
 * {
   font-family: "Pretendard-Regular";
 }
