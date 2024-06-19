@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import Button from "../component/Button";
 
 const User = {
   id: "test",
@@ -29,6 +30,7 @@ const Login = () => {
     <>
       <div className="loginPage">
         <h1 className="logo">Plan T</h1>
+        <p className="loginText">나만의 일정관리 서비스</p>
         <div className="login">
           <div className="contentWrap">
             <div className="inputTitle">아이디</div>
@@ -54,10 +56,8 @@ const Login = () => {
           </div>
 
           <div className="btnWrap">
-            <button onClick={onClickConfirmButton} className="loginBtn">
-              로그인
-            </button>
-            <button className="registerBtn">회원가입</button>
+            <Button text="로그인" onClick={onClickConfirmButton}></Button>
+            <Button text="회원가입" type="SECONDARY"></Button>
           </div>
         </div>
       </div>

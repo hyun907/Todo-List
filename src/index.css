@@ -58,7 +58,14 @@ body::before {
   max-height: 400px;
   height: 100%;
   width: 100%;
-  max-width: 500px;
+  max-width: 560px;
+}
+.loginText {
+    color: white;
+    font-family: "Pretendard-regular";
+    text-align: center;
+    margin-top: -10px;
+    margin-bottom: 30px;
 }
 
 .logo {
@@ -66,6 +73,7 @@ body::before {
   font-family: "against";
   font-size: 48px;
   text-align: center;
+  font-weight: lighter;
 }
 
 .contentWrap {
@@ -108,7 +116,7 @@ body::before {
   margin-bottom: 20px;
 }
 
-.loginBtn {
+/* .loginBtn {
   width: 100%;
   padding: 12px;
   border: none;
@@ -118,15 +126,11 @@ body::before {
   border-radius: 8px;
   margin-bottom: 20px;
   cursor: pointer;
-}
-.registerBtn {
-  width: 100%;
-  padding: 12px;
+} */
+
+/* .registerBtn {
   border: 1px solid #547e55;
-  font-family: "Pretendard-Semibold";
   background-color: #ffffff;
   color: #547e55;
-  border-radius: 8px;
-  margin-bottom: 8px;
   cursor: pointer;
-}
+} */
