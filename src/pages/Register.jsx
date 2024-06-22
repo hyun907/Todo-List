@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import Button from "../component/Button";
+import { useNavigate } from "react-router-dom";
 
 const User = {
   id: "test",
@@ -10,6 +11,7 @@ const User = {
 const Register = () => {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
+  const nav = useNavigate();
 
   const handleId = (e) => {
     setId(e.target.value);
@@ -20,6 +22,10 @@ const Register = () => {
 
   const onClickConfirmButton = () => {
     alert("회원가입 되었습니다.");
+  };
+
+  const goLogin = () => {
+    nav("/");
   };
 
   return (
@@ -53,7 +59,11 @@ const Register = () => {
 
           <div className="btnWrap">
             <Button text="회원가입" onClick={onClickConfirmButton}></Button>
-            <Button text="로그인 페이지로 돌아가기" type="SECONDARY"></Button>
+            <Button
+              text="로그인 페이지로 돌아가기"
+              type="SECONDARY"
+              onClick={goLogin}
+            ></Button>
           </div>
         </div>
       </div>

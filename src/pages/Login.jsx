@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import Button from "../component/Button";
+import { useNavigate } from "react-router-dom";
 
 const User = {
   id: "test",
@@ -10,6 +11,7 @@ const User = {
 const Login = () => {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
+  const nav = useNavigate();
 
   const handleId = (e) => {
     setId(e.target.value);
@@ -24,6 +26,10 @@ const Login = () => {
     } else {
       alert("로그인에 실패했습니다.");
     }
+  };
+
+  const goRegister = () => {
+    nav("/Register");
   };
 
   return (
@@ -57,7 +63,11 @@ const Login = () => {
 
           <div className="btnWrap">
             <Button text="로그인" onClick={onClickConfirmButton}></Button>
-            <Button text="회원가입" type="SECONDARY"></Button>
+            <Button
+              text="회원가입"
+              type="SECONDARY"
+              onClick={goRegister}
+            ></Button>
           </div>
         </div>
       </div>

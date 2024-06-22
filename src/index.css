@@ -115,22 +115,3 @@ body::before {
 .btnWrap {
   margin-bottom: 20px;
 }
-
-/* .loginBtn {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  font-family: "Pretendard-Semibold";
-  background-color: #547e55;
-  color: white;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  cursor: pointer;
-} */
-
-/* .registerBtn {
-  border: 1px solid #547e55;
-  background-color: #ffffff;
-  color: #547e55;
-  cursor: pointer;
-} */
