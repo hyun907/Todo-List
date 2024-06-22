@@ -14,5 +14,9 @@
   border: 1px solid #547e55;
   background-color: #ffffff;
   color: #547e55;
-  cursor: pointer;
+}
+
+.Button_DELETE {
+  background-color: #C7DDC8;
+  color: #547e55;
 }

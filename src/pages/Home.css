@@ -1,6 +1,11 @@
 .Home {
-  /* width: 100%;
-  display: flex;
-  justify-content: center;
-  position: relative; */
+    padding: 30px;
 }
+.section_top {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+
