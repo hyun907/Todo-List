@@ -1,0 +1,23 @@
+.EditBox {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: rgba(108, 108, 108, 0.285) 0px 0px 30px 0px;
+}
+
+.EditBox > textarea {
+  border: 1px solid #cdd1d5;
+  border-radius: 18px;
+  height: 100px;
+  padding: 20px;
+  resize: none;
+}
+
+.button_wrapper {
+  width: 140px;
+  margin-top: 20px;
+  margin-bottom: -10px;
+  margin-left: auto;
+}

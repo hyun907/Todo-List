@@ -1,11 +1,13 @@
 import React from "react";
 import ReactCalendar from "../component/ReactCalendar";
-import "./Home.css"
+import "./Home.css";
+import EditBox from "../component/EditBox";
 
 const Home = () => {
   return (
     <div className="Home">
-      <ReactCalendar />
+      {/* <ReactCalendar /> */}
+      <EditBox />
     </div>
   );
 };
