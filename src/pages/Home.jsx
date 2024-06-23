@@ -36,6 +36,13 @@ const Home = () => {
     [todos]
   );
 
+  const onRemove = useCallback(
+    (id) => {
+      setTodos(todos.filter((todo) => todo.id !== id));
+    },
+    [todos]
+  );
+
   return (
     <div className="Home">
       <section className="section_top">
@@ -43,7 +50,7 @@ const Home = () => {
         <EditBox onInsert={onInsert} />
       </section>
       <section className="section_bottom">
-        <List todos={todos} />
+        <List todos={todos} onRemove={onRemove} />
       </section>
     </div>
   );
