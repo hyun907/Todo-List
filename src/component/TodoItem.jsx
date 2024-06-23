@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import "./TodoItem.css";
 import Button from "./Button";
 
-const TodoItem = ({ todo, onRemove }) => {
+const TodoItem = ({ todos, todo, onRemove, onInsert }) => {
   const { id, text, checked } = todo;
 
   // check 값 저장
@@ -17,12 +17,13 @@ const TodoItem = ({ todo, onRemove }) => {
       setCheckedItems(checkedItems);
     }
   };
-  
+
   const [bChecked, setChecked] = useState(false);
 
   const checkHandler = ({ target }) => {
     setChecked(!bChecked);
     checkedItemHandler(todo.id, target.checked);
+    console.log(todos);
   };
 
   return (

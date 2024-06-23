@@ -1,11 +1,9 @@
 .Home {
-    padding: 30px;
+  padding: 30px;
 }
 .section_top {
-    display: flex;
-    gap: 20px;
-    justify-content: space-between;
-    margin-bottom: 20px;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
-
-

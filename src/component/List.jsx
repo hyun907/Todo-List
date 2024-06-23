@@ -7,6 +7,7 @@ const List = ({ todos, onRemove }) => {
     <div className="List">
       {todos.map((todo) => (
         <TodoItem
+          todos={todos}
           todo={todo}
           key={todo.id}
           onRemove={onRemove}

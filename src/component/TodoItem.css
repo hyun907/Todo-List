@@ -5,6 +5,7 @@
   background-color: white;
   border-bottom: 1px solid #c7ddc8;
   padding: 10px;
+ 
 }
 
 .TodoItem input {
@@ -23,10 +24,12 @@
   gap: 20px;
   margin-right: 10px;
   align-items: center;
+  
 }
 
 .TodoItem .button_wrapper button {
   padding: 5px 10px;
   display: inline-block;
   margin-bottom: 0;
+  z-index: 1;
 }
