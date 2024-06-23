@@ -10,16 +10,19 @@ const Home = () => {
       id: 1,
       text: "리액트 기초 알아보기",
       checked: true,
+      emoji: "",
     },
     {
       id: 2,
       text: "컴포넌트 스타일링 하기",
       checked: true,
+      emoji: "",
     },
     {
       id: 3,
       text: "투두리스트 만들기",
       checked: false,
+      emoji: "",
     },
   ]);
 
@@ -58,6 +61,13 @@ const Home = () => {
     setTodos(updatedTodos);
   };
 
+  const handleEmojiChange = (id, emoji) => {
+    const updatedTodos = todos.map((todo) =>
+      todo.id === id ? { ...todo, emoji: emoji } : todo
+    );
+    setTodos(updatedTodos);
+  };
+
   return (
     <div className="Home">
       <section className="section_top">
@@ -73,6 +83,7 @@ const Home = () => {
               onToggle={handleToggle}
               onRemove={handleRemove}
               onSave={handleSave}
+              onEmojiChange={handleEmojiChange}
             />
           ))}
         </div>

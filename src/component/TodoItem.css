@@ -41,3 +41,7 @@
   color: #547e55;
   font-weight: 900;
 }
+
+.edit-input::placeholder {
+  color: #cdd1d5;
+}
