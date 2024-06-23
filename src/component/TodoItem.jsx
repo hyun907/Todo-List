@@ -3,25 +3,25 @@ import "./TodoItem.css";
 import Button from "./Button";
 
 const TodoItem = ({ todo, onRemove, onSave, onToggle, onEmojiChange }) => {
-  const { todo_id, content, is_checked, emoji } = todo; // todo 객체의 필드명을 API 응답 구조에 맞게 수정
+  const { todo_id, content, is_checked, emoji, date } = todo;
   const [isEditing, setEditing] = useState(false);
-  const [editedText, setEditedText] = useState(content || ""); // 초기 값이 없을 경우 공백 문자열로 설정
-  const [editedEmoji, setEditedEmoji] = useState(emoji || ""); // 초기 값이 없을 경우 공백 문자열로 설정
+  const [editedText, setEditedText] = useState(content);
+  const [editedEmoji, setEditedEmoji] = useState(emoji || "");
 
   const handleEdit = () => {
-    setEditedText(content); // 수정된 구조에 맞추어 필드명 변경
-    setEditedEmoji(emoji || ""); // 수정된 구조에 맞추어 필드명 변경
+    setEditedText(content);
+    setEditedEmoji(emoji || "");
     setEditing(true);
   };
 
   const handleSave = () => {
-    onSave(todo_id, editedText); // 수정된 구조에 맞추어 필드명 변경
-    onEmojiChange(todo_id, editedEmoji); // 수정된 구조에 맞추어 필드명 변경
+    onSave(todo_id, editedText);
+    onEmojiChange(todo_id, editedEmoji);
     setEditing(false);
   };
 
   const handleDelete = () => {
-    onRemove(todo_id); // 수정된 구조에 맞추어 필드명 변경
+    onRemove(todo_id);
   };
 
   const handleInputChange = (e) => {
@@ -32,8 +32,10 @@ const TodoItem = ({ todo, onRemove, onSave, onToggle, onEmojiChange }) => {
     setEditedEmoji(e.target.value);
   };
 
-  const handleCheckboxChange = () => {
-    onToggle(todo_id); // 수정된 구조에 맞추어 필드명 변경
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    const formattedDate = new Date(dateString).toLocaleDateString("ko-KR", options);
+    return formattedDate;
   };
 
   return (
@@ -42,7 +44,7 @@ const TodoItem = ({ todo, onRemove, onSave, onToggle, onEmojiChange }) => {
         className="checkbox"
         type="checkbox"
         checked={is_checked}
-        onChange={handleCheckboxChange}
+        onChange={() => onToggle(todo_id)}
       />
 
       {isEditing ? (
@@ -71,6 +73,7 @@ const TodoItem = ({ todo, onRemove, onSave, onToggle, onEmojiChange }) => {
         <>
           <div className="emoji">{emoji}</div>
           <div className="content">{content}</div>
+          
         </>
       )}
 
@@ -82,8 +85,9 @@ const TodoItem = ({ todo, onRemove, onSave, onToggle, onEmojiChange }) => {
       <div className="button_wrapper">
         {!isEditing && (
           <>
+          <div className="date">{formatDate(date)}</div>
             <Button text={"수정"} type={"SECONDARY"} onClick={handleEdit} />
-            <Button text={"삭제"} type={"DELETE"} onClick={handleDelete} />
+            <Button text={"삭제"} type={"DELETE"} onClick={() => handleDelete(todo_id)} />
           </>
         )}
       </div>
