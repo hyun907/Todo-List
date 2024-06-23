@@ -31,6 +31,7 @@ body::before {
   left: 0;
   right: 0px;
   bottom: 0px;
+  z-index: -1;
 }
 
 * {
@@ -61,11 +62,11 @@ body::before {
   max-width: 560px;
 }
 .loginText {
-    color: white;
-    font-family: "Pretendard-regular";
-    text-align: center;
-    margin-top: -10px;
-    margin-bottom: 30px;
+  color: white;
+  font-family: "Pretendard-regular";
+  text-align: center;
+  margin-top: -10px;
+  margin-bottom: 30px;
 }
 
 .logo {

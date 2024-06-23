@@ -19,7 +19,7 @@ const Home = () => {
     {
       id: 3,
       text: "투두리스트 만들기",
-      checked: false,
+      checked: true,
     },
   ]);
   const nextId = useRef(4);

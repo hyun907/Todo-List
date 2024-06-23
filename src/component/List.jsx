@@ -6,7 +6,11 @@ const List = ({ todos, onRemove }) => {
   return (
     <div className="List">
       {todos.map((todo) => (
-        <TodoItem todo={todo} key={todo.id} onRemove={onRemove} />
+        <TodoItem
+          todo={todo}
+          key={todo.id}
+          onRemove={onRemove}
+        />
       ))}
     </div>
   );
