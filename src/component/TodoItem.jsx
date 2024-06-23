@@ -3,25 +3,25 @@ import "./TodoItem.css";
 import Button from "./Button";
 
 const TodoItem = ({ todo, onRemove, onSave, onToggle, onEmojiChange }) => {
-  const { id, text, checked, emoji } = todo;
+  const { todo_id, content, is_checked, emoji } = todo; // todo 객체의 필드명을 API 응답 구조에 맞게 수정
   const [isEditing, setEditing] = useState(false);
-  const [editedText, setEditedText] = useState(text);
-  const [editedEmoji, setEditedEmoji] = useState(emoji || ""); // 이모지 값이 없을 경우 빈 문자열로 초기화
+  const [editedText, setEditedText] = useState(content || ""); // 초기 값이 없을 경우 공백 문자열로 설정
+  const [editedEmoji, setEditedEmoji] = useState(emoji || ""); // 초기 값이 없을 경우 공백 문자열로 설정
 
   const handleEdit = () => {
-    setEditedText(text); // Reset edited text to current text
-    setEditedEmoji(emoji || ""); // Reset edited emoji to current emoji or empty string if emoji is undefined
+    setEditedText(content); // 수정된 구조에 맞추어 필드명 변경
+    setEditedEmoji(emoji || ""); // 수정된 구조에 맞추어 필드명 변경
     setEditing(true);
   };
 
   const handleSave = () => {
-    onSave(id, editedText); // Pass id and edited text to parent component
-    onEmojiChange(id, editedEmoji); // Pass id and edited emoji to parent component
+    onSave(todo_id, editedText); // 수정된 구조에 맞추어 필드명 변경
+    onEmojiChange(todo_id, editedEmoji); // 수정된 구조에 맞추어 필드명 변경
     setEditing(false);
   };
 
   const handleDelete = () => {
-    onRemove(id);
+    onRemove(todo_id); // 수정된 구조에 맞추어 필드명 변경
   };
 
   const handleInputChange = (e) => {
@@ -33,7 +33,7 @@ const TodoItem = ({ todo, onRemove, onSave, onToggle, onEmojiChange }) => {
   };
 
   const handleCheckboxChange = () => {
-    onToggle(id); // Toggle checked state in parent component
+    onToggle(todo_id); // 수정된 구조에 맞추어 필드명 변경
   };
 
   return (
@@ -41,7 +41,7 @@ const TodoItem = ({ todo, onRemove, onSave, onToggle, onEmojiChange }) => {
       <input
         className="checkbox"
         type="checkbox"
-        checked={checked}
+        checked={is_checked}
         onChange={handleCheckboxChange}
       />
 
@@ -59,18 +59,18 @@ const TodoItem = ({ todo, onRemove, onSave, onToggle, onEmojiChange }) => {
               }
             }}
           />
-            <input
-              className="edit-input"
-              type="text"
-              value={editedEmoji}
-              onChange={handleEmojiInputChange}
-              placeholder="이모지 입력"
-            />
+          <input
+            className="edit-input"
+            type="text"
+            value={editedEmoji}
+            onChange={handleEmojiInputChange}
+            placeholder="이모지 입력"
+          />
         </>
       ) : (
         <>
           <div className="emoji">{emoji}</div>
-          <div className="content">{text}</div>
+          <div className="content">{content}</div>
         </>
       )}
 

@@ -7,21 +7,27 @@ import TodoItem from "../component/TodoItem";
 const Home = () => {
   const [todos, setTodos] = useState([
     {
-      id: 1,
-      text: "리액트 기초 알아보기",
-      checked: true,
+      todo_id: 1,
+      user: "걸어봐위엄라이커라이온",
+      date: "2024-06-17T17:00:00.123456+09:00",
+      content: "멋사와 함께 행복 개발하기",
+      is_checked: false,
       emoji: "",
     },
     {
-      id: 2,
-      text: "컴포넌트 스타일링 하기",
-      checked: true,
+      todo_id: 2,
+      user: "걸어봐위엄라이커라이온",
+      date: "2024-06-16T11:30:15.123456+09:00",
+      content: "투두리스트 API 개발 끝내기",
+      is_checked: false,
       emoji: "",
     },
     {
-      id: 3,
-      text: "투두리스트 만들기",
-      checked: false,
+      todo_id: 3,
+      user: "걸어봐위엄라이커라이온",
+      date: "2024-06-20T15:15:15.123456+09:00",
+      content: "건강하기",
+      is_checked: false,
       emoji: "",
     },
   ]);
@@ -29,41 +35,39 @@ const Home = () => {
   const nextId = useRef(4);
 
   const onInsert = useCallback((text) => {
-    const todo = {
-      id: nextId.current,
-      text,
-      checked: false,
+    const newTodo = {
+      todo_id: nextId.current,
+      user: "걸어봐위엄라이커라이온",
+      date: new Date().toISOString(),
+      content: text,
+      is_checked: false,
+      emoji: "",
     };
-    setTodos((todos) => todos.concat(todo)); //concat(): 인자로 주어진 배열이나 값들을 기존 배열에 합쳐서 새 배열 반환
-    nextId.current++; //nextId 1씩 더하기
+    setTodos((prevTodos) => [...prevTodos, newTodo]);
+    nextId.current++;
   }, []);
 
   const onRemove = useCallback((id) => {
-    setTodos((todos) => todos.filter((todo) => todo.id !== id));
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo.todo_id !== id));
   }, []);
 
   const handleToggle = (id) => {
     const updatedTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, checked: !todo.checked } : todo
+      todo.todo_id === id ? { ...todo, is_checked: !todo.is_checked } : todo
     );
-    setTodos(updatedTodos);
-  };
-
-  const handleRemove = (id) => {
-    const updatedTodos = todos.filter((todo) => todo.id !== id);
     setTodos(updatedTodos);
   };
 
   const handleSave = (id, editedText) => {
     const updatedTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, text: editedText } : todo
+      todo.todo_id === id ? { ...todo, content: editedText } : todo
     );
     setTodos(updatedTodos);
   };
 
   const handleEmojiChange = (id, emoji) => {
     const updatedTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, emoji: emoji } : todo
+      todo.todo_id === id ? { ...todo, emoji: emoji } : todo
     );
     setTodos(updatedTodos);
   };
@@ -76,16 +80,20 @@ const Home = () => {
       </section>
       <section className="section_bottom">
         <div className="todo-list">
-          {todos.map((todo) => (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              onToggle={handleToggle}
-              onRemove={handleRemove}
-              onSave={handleSave}
-              onEmojiChange={handleEmojiChange}
-            />
-          ))}
+          {todos.length > 0 ? (
+            todos.map((todo) => (
+              <TodoItem
+                key={todo.todo_id}
+                todo={todo}
+                onToggle={handleToggle}
+                onRemove={onRemove}
+                onSave={handleSave}
+                onEmojiChange={handleEmojiChange}
+              />
+            ))
+          ) : (
+            <p>No todos found.</p>
+          )}
         </div>
       </section>
     </div>
