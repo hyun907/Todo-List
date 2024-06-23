@@ -5,17 +5,16 @@
   background-color: white;
   border-bottom: 1px solid #c7ddc8;
   padding: 10px;
- 
 }
 
-.TodoItem input {
+.TodoItem .checkbox {
   width: 20px;
   margin-left: 10px;
 }
 
 .TodoItem .content {
-  flex: 1;
   font-size: 14px;
+  width: 100%;
 }
 
 .TodoItem .button_wrapper {
@@ -24,7 +23,6 @@
   gap: 20px;
   margin-right: 10px;
   align-items: center;
-  
 }
 
 .TodoItem .button_wrapper button {
@@ -32,4 +30,14 @@
   display: inline-block;
   margin-bottom: 0;
   z-index: 1;
+  width: 60px;
+}
+
+.edit-input {
+  width: 40%;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #547e55;
+  font-weight: 900;
 }
