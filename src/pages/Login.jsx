@@ -1,31 +1,64 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import Button from "../component/Button";
 import { useNavigate } from "react-router-dom";
 
-const User = {
-  id: "test",
-  pw: "test123",
-};
-
 const Login = () => {
-  const [id, setId] = useState("");
-  const [pw, setPw] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const nav = useNavigate();
 
-  const handleId = (e) => {
-    setId(e.target.value);
-  };
-  const handlePw = (e) => {
-    setPw(e.target.value);
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
   };
 
-  const onClickConfirmButton = () => {
-    if (id === User.id && pw === User.pw) {
-      alert("로그인에 성공했습니다.");
-    } else {
-      alert("로그인에 실패했습니다.");
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleLogin = () => {
+    if (!username || !password) {
+      alert("아이디와 비밀번호를 모두 입력해주세요.");
+      return;
     }
+
+    const data = {
+      username: username,
+      password: password,
+    };
+
+    axios
+      .post("/api/users/login", data)
+      .then((response) => {
+        alert("로그인에 성공했습니다.");
+        console.log("로그인 성공, 사용자 ID:", response.data.user_id);
+        nav("/home");
+      })
+      .catch((error) => {
+        if (error.response) {
+          if (
+            error.response.status === 400 &&
+            error.response.data.detail ===
+              "username 또는 password가 필요합니다."
+          ) {
+            alert("아이디와 비밀번호를 모두 입력해주세요.");
+          } else if (
+            error.response.status === 404 &&
+            error.response.data.detail === "유저를 찾을 수 없습니다."
+          ) {
+            alert("유저를 찾을 수 없습니다.");
+          } else {
+            console.error("Error:", error.response.data);
+            alert("로그인 실패");
+          }
+        } else if (error.request) {
+          console.error("No response from server:", error.request);
+          alert("서버로부터 응답을 받지 못했습니다.");
+        } else {
+          console.error("Request error:", error.message);
+          alert("요청 중 오류가 발생했습니다.");
+        }
+      });
   };
 
   const goRegister = () => {
@@ -44,8 +77,8 @@ const Login = () => {
               <input
                 className="input"
                 placeholder="아이디를 입력하세요"
-                value={id}
-                onChange={handleId}
+                value={username}
+                onChange={handleUsernameChange}
               />
             </div>
 
@@ -55,14 +88,14 @@ const Login = () => {
                 type="password"
                 className="input"
                 placeholder="비밀번호를 입력하세요"
-                value={pw}
-                onChange={handlePw}
+                value={password}
+                onChange={handlePasswordChange}
               />
             </div>
           </div>
 
           <div className="btnWrap">
-            <Button text="로그인" onClick={onClickConfirmButton}></Button>
+            <Button text="로그인" onClick={handleLogin}></Button>
             <Button
               text="회원가입"
               type="SECONDARY"
