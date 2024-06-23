@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useCallback, useRef, useState } from "react";
 import TodoItem from "./TodoItem";
 import "./List.css";
 
-const List = () => {
+const List = ({ todos }) => {
   return (
     <div className="List">
-      <TodoItem />
-      <TodoItem />
-      <TodoItem />
+      {todos.map((todo) => (
+        <TodoItem todo={todo} key={todo.id} />
+      ))}
     </div>
   );
 };
