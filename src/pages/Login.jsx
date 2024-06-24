@@ -32,8 +32,8 @@ const Login = () => {
       .post(`${BASE_URL}/api/users/login`, data)
       .then((response) => {
         alert("로그인에 성공했습니다.");
-        console.log("로그인 성공, 사용자 ID:", response.data.user_id);
-        nav("/home");
+        const userId = response.data.user_id;
+        nav(`/home/${userId}`); // 로그인 후에 사용자 ID를 URL에 포함시킴
       })
       .catch((error) => {
         if (error.response) {

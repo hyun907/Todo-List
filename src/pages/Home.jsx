@@ -1,75 +1,121 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 import ReactCalendar from "../component/ReactCalendar";
 import "./Home.css";
 import EditBox from "../component/EditBox";
 import TodoItem from "../component/TodoItem";
+import axios from "axios";
 
 const Home = () => {
-  const [todos, setTodos] = useState([
-    {
-      todo_id: 1,
-      user: "걸어봐위엄라이커라이온",
-      date: "2024-06-17T17:00:00.123456+09:00",
-      content: "멋사와 함께 행복 개발하기",
-      is_checked: false,
-      emoji: "",
-    },
-    {
-      todo_id: 2,
-      user: "걸어봐위엄라이커라이온",
-      date: "2024-06-16T11:30:15.123456+09:00",
-      content: "투두리스트 API 개발 끝내기",
-      is_checked: false,
-      emoji: "",
-    },
-    {
-      todo_id: 3,
-      user: "걸어봐위엄라이커라이온",
-      date: "2024-06-20T15:15:15.123456+09:00",
-      content: "건강하기",
-      is_checked: false,
-      emoji: "",
-    },
-  ]);
+  const [todos, setTodos] = useState([]);
+  const [error, setError] = useState(null);
+  const { userId } = useParams(); // URL에서 동적으로 userId 파라미터를 받아옴
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-  const nextId = useRef(4);
+  const nextId = useRef(1); // 신규 Todo 아이템의 ID를 관리하기 위한 useRef
 
-  const onInsert = useCallback((text) => {
+  useEffect(() => {
+    if (userId) {
+      fetchTodos(userId); // userId가 있을 때만 투두리스트 조회
+    }
+  }, [userId]); // userId가 변경될 때마다 useEffect가 실행되도록 설정
+
+  const fetchTodos = async (userId) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/api/todos/${userId}`);
+      setTodos(response.data); // API에서 받은 데이터를 상태에 저장
+    } catch (error) {
+      console.error("Error fetching todos:", error);
+      setError("투두리스트를 불러오는 중 오류가 발생했습니다.");
+    }
+  };
+
+  const onInsert = async (text) => {
+    // userId가 정의되지 않았을 경우, 추가 요청을 진행하지 않음
+    if (!userId) {
+      console.error("userId가 정의되지 않았습니다.");
+      return;
+    }
+
+    // 신규 Todo 아이템 추가
     const newTodo = {
-      todo_id: nextId.current,
-      user: "걸어봐위엄라이커라이온",
+      user_id: userId, // 사용자 ID를 추가하여 API에 보낼 데이터 구성
       date: new Date().toISOString(),
       content: text,
-      is_checked: false,
-      emoji: "",
     };
-    setTodos((prevTodos) => [...prevTodos, newTodo]);
-    nextId.current++;
-  }, []);
 
-  const onRemove = useCallback((id) => {
-    setTodos((prevTodos) => prevTodos.filter((todo) => todo.todo_id !== id));
-  }, []);
-
-  const handleToggle = (id) => {
-    const updatedTodos = todos.map((todo) =>
-      todo.todo_id === id ? { ...todo, is_checked: !todo.is_checked } : todo
-    );
-    setTodos(updatedTodos);
+    try {
+      const response = await axios.post(`${BASE_URL}/api/todos/${userId}`, newTodo); // API에 데이터 추가 요청
+      newTodo.todo_id = response.data.todo_id; // 서버에서 할당된 신규 Todo 아이템의 ID를 받아와 추가
+      setTodos((prevTodos) => [...prevTodos, newTodo]); // 상태 업데이트
+      nextId.current++;
+    } catch (error) {
+      console.error("Error adding todo:", error);
+      setError("투두를 추가하는 중 오류가 발생했습니다.");
+    }
   };
 
-  const handleSave = (id, editedText) => {
-    const updatedTodos = todos.map((todo) =>
-      todo.todo_id === id ? { ...todo, content: editedText } : todo
-    );
-    setTodos(updatedTodos);
+  const onRemove = async (id) => {
+    // Todo 아이템 삭제
+    try {
+      await axios.delete(`${BASE_URL}/api/todos/${id}`); // API에서 해당 ID의 데이터 삭제 요청
+      setTodos((prevTodos) => prevTodos.filter((todo) => todo.todo_id !== id)); // 상태 업데이트
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+      setError("투두를 삭제하는 중 오류가 발생했습니다.");
+    }
   };
 
-  const handleEmojiChange = (id, emoji) => {
-    const updatedTodos = todos.map((todo) =>
-      todo.todo_id === id ? { ...todo, emoji: emoji } : todo
-    );
-    setTodos(updatedTodos);
+  const handleToggle = async (id) => {
+    // Todo 아이템의 체크 상태 변경
+    const toggledTodo = todos.find((todo) => todo.todo_id === id);
+    const updatedTodo = { ...toggledTodo, is_checked: !toggledTodo.is_checked };
+
+    try {
+      await axios.put(`${BASE_URL}/api/todos/${id}`, updatedTodo); // API에서 해당 ID의 데이터 업데이트 요청
+      const updatedTodos = todos.map((todo) =>
+        todo.todo_id === id ? updatedTodo : todo
+      );
+      setTodos(updatedTodos); // 상태 업데이트
+    } catch (error) {
+      console.error("Error toggling todo:", error);
+      setError("투두 체크 상태를 변경하는 중 오류가 발생했습니다.");
+    }
+  };
+
+  const handleSave = async (id, editedText) => {
+    // Todo 아이템의 내용 수정
+    const editedTodo = {
+      ...todos.find((todo) => todo.todo_id === id),
+      content: editedText,
+    };
+
+    try {
+      await axios.put(`${BASE_URL}/api/todos/${id}`, editedTodo); // API에서 해당 ID의 데이터 업데이트 요청
+      const updatedTodos = todos.map((todo) =>
+        todo.todo_id === id ? editedTodo : todo
+      );
+      setTodos(updatedTodos); // 상태 업데이트
+    } catch (error) {
+      console.error("Error saving todo:", error);
+      setError("투두 내용을 저장하는 중 오류가 발생했습니다.");
+    }
+  };
+
+  const handleEmojiChange = async (id, emoji) => {
+    // Todo 아이템의 이모지 변경
+    const updatedTodo = { ...todos.find((todo) => todo.todo_id === id), emoji };
+
+    try {
+      await axios.put(`${BASE_URL}/api/todos/${id}`, updatedTodo); // API에서 해당 ID의 데이터 업데이트 요청
+      const updatedTodos = todos.map((todo) =>
+        todo.todo_id === id ? updatedTodo : todo
+      );
+      setTodos(updatedTodos); // 상태 업데이트
+    } catch (error) {
+      console.error("Error changing emoji:", error);
+      setError("투두 이모지를 변경하는 중 오류가 발생했습니다.");
+    }
   };
 
   return (
@@ -80,7 +126,9 @@ const Home = () => {
       </section>
       <section className="section_bottom">
         <div className="todo-list">
-          {todos.length > 0 ? (
+          {error ? (
+            <p>{error}</p>
+          ) : todos.length > 0 ? (
             todos.map((todo) => (
               <TodoItem
                 key={todo.todo_id}
