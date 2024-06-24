@@ -34,7 +34,10 @@ const TodoItem = ({ todo, onRemove, onSave, onToggle, onEmojiChange }) => {
 
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
-    const formattedDate = new Date(dateString).toLocaleDateString("ko-KR", options);
+    const formattedDate = new Date(dateString).toLocaleDateString(
+      "ko-KR",
+      options
+    );
     return formattedDate;
   };
 
@@ -62,7 +65,7 @@ const TodoItem = ({ todo, onRemove, onSave, onToggle, onEmojiChange }) => {
             }}
           />
           <input
-            className="edit-input"
+            className="emoji-input"
             type="text"
             value={editedEmoji}
             onChange={handleEmojiInputChange}
@@ -73,7 +76,6 @@ const TodoItem = ({ todo, onRemove, onSave, onToggle, onEmojiChange }) => {
         <>
           <div className="emoji">{emoji}</div>
           <div className="content">{content}</div>
-          
         </>
       )}
 
@@ -85,9 +87,13 @@ const TodoItem = ({ todo, onRemove, onSave, onToggle, onEmojiChange }) => {
       <div className="button_wrapper">
         {!isEditing && (
           <>
-          <div className="date">{formatDate(date)}</div>
+            <div className="date">{formatDate(date)}</div>
             <Button text={"수정"} type={"SECONDARY"} onClick={handleEdit} />
-            <Button text={"삭제"} type={"DELETE"} onClick={() => handleDelete(todo_id)} />
+            <Button
+              text={"삭제"}
+              type={"DELETE"}
+              onClick={() => handleDelete(todo_id)}
+            />
           </>
         )}
       </div>

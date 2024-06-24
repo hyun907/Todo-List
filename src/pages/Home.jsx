@@ -92,7 +92,7 @@ const Home = () => {
               />
             ))
           ) : (
-            <p>No todos found.</p>
+            <p>🥳 추가하기 버튼으로 할 일을 추가할 수 있어요!</p>
           )}
         </div>
       </section>

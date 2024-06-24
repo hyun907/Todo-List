@@ -7,6 +7,7 @@ const Register = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const nav = useNavigate();
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -27,7 +28,8 @@ const Register = () => {
       password: password,
     };
 
-    axios.post("/api/users/register", data)
+    axios
+      .post(`${BASE_URL}/api/users/register`, data)
       .then((response) => {
         alert("회원가입 되었습니다.");
         nav("/");

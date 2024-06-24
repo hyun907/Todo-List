@@ -7,6 +7,7 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const nav = useNavigate();
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -28,7 +29,7 @@ const Login = () => {
     };
 
     axios
-      .post("/api/users/login", data)
+      .post(`${BASE_URL}/api/users/login`, data)
       .then((response) => {
         alert("로그인에 성공했습니다.");
         console.log("로그인 성공, 사용자 ID:", response.data.user_id);
