@@ -51,18 +51,15 @@
   padding: 4px;
 }
 
-.emoji-input::placeholder, .edit-input::placeholder {
-  color: #cdd1d5;
-}
-
 .date {
   font-size: 12px;
   color: #cdd1d5;
   text-wrap: nowrap;
 }
 
-.emoji {
+.emoji-button {
   background-color: #e7eee7;
   padding:4px;
-  border-radius:2px;
+  border-radius:20px;
+  border: 1px solid #bedcbe;
 }

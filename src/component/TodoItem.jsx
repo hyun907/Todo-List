@@ -14,11 +14,20 @@ const TodoItem = ({ todo, onRemove, onSave, onToggle, onEmojiChange }) => {
     setEditing(true);
   };
 
-  const handleSave = () => {
-    onSave(todo_id, editedText);
-    onEmojiChange(todo_id, editedEmoji);
-    setEditing(false);
+  const handleSave = async () => {
+    try {
+      const editedTodo = {
+        ...todo,
+        content: editedText,
+      };
+      await onSave(todo_id, editedText);
+      setEditing(false);
+    } catch (error) {
+      console.error("Error saving todo:", error);
+      // Handle error saving todo
+    }
   };
+  
 
   const handleDelete = () => {
     onRemove(todo_id);
@@ -28,8 +37,10 @@ const TodoItem = ({ todo, onRemove, onSave, onToggle, onEmojiChange }) => {
     setEditedText(e.target.value);
   };
 
-  const handleEmojiInputChange = (e) => {
-    setEditedEmoji(e.target.value);
+  const handleEmojiButtonClick = () => {
+    const newEmoji = editedEmoji === "😎" ? "" : "😎";
+    setEditedEmoji(newEmoji);
+    onEmojiChange(todo_id, newEmoji);
   };
 
   const formatDate = (dateString) => {
@@ -50,6 +61,10 @@ const TodoItem = ({ todo, onRemove, onSave, onToggle, onEmojiChange }) => {
         onChange={() => onToggle(todo_id)}
       />
 
+      <button className="emoji-button" onClick={handleEmojiButtonClick}>
+        🦁
+      </button>
+
       {isEditing ? (
         <>
           <input
@@ -63,13 +78,6 @@ const TodoItem = ({ todo, onRemove, onSave, onToggle, onEmojiChange }) => {
                 handleSave();
               }
             }}
-          />
-          <input
-            className="emoji-input"
-            type="text"
-            value={editedEmoji}
-            onChange={handleEmojiInputChange}
-            placeholder="이모지 입력"
           />
         </>
       ) : (

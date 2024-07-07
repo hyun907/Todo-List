@@ -31,22 +31,23 @@ const Home = () => {
   };
 
   const onInsert = async (text) => {
-    // userId가 정의되지 않았을 경우, 추가 요청을 진행하지 않음
     if (!userId) {
       console.error("userId가 정의되지 않았습니다.");
       return;
     }
 
-    // 신규 Todo 아이템 추가
     const newTodo = {
-      user_id: userId, // 사용자 ID를 추가하여 API에 보낼 데이터 구성
+      user_id: userId,
       date: new Date().toISOString(),
       content: text,
     };
 
     try {
-      const response = await axios.post(`${BASE_URL}/api/todos/${userId}`, newTodo); // API에 데이터 추가 요청
-      newTodo.todo_id = response.data.todo_id; // 서버에서 할당된 신규 Todo 아이템의 ID를 받아와 추가
+      const response = await axios.post(
+        `${BASE_URL}/api/todos/${userId}`,
+        newTodo
+      );
+      newTodo.todo_id = response.data.todo_id;
       setTodos((prevTodos) => [...prevTodos, newTodo]); // 상태 업데이트
       nextId.current++;
     } catch (error) {
@@ -56,10 +57,9 @@ const Home = () => {
   };
 
   const onRemove = async (id) => {
-    // Todo 아이템 삭제
     try {
-      await axios.delete(`${BASE_URL}/api/todos/${id}`); // API에서 해당 ID의 데이터 삭제 요청
-      setTodos((prevTodos) => prevTodos.filter((todo) => todo.todo_id !== id)); // 상태 업데이트
+      await axios.delete(`${BASE_URL}/api/todos/${userId}/${id}`);
+      setTodos((prevTodos) => prevTodos.filter((todo) => todo.todo_id !== id));
     } catch (error) {
       console.error("Error deleting todo:", error);
       setError("투두를 삭제하는 중 오류가 발생했습니다.");
@@ -67,16 +67,16 @@ const Home = () => {
   };
 
   const handleToggle = async (id) => {
-    // Todo 아이템의 체크 상태 변경
     const toggledTodo = todos.find((todo) => todo.todo_id === id);
     const updatedTodo = { ...toggledTodo, is_checked: !toggledTodo.is_checked };
 
     try {
-      await axios.put(`${BASE_URL}/api/todos/${id}`, updatedTodo); // API에서 해당 ID의 데이터 업데이트 요청
-      const updatedTodos = todos.map((todo) =>
-        todo.todo_id === id ? updatedTodo : todo
+      await axios.patch(`${BASE_URL}/api/todos/${userId}/${id}/check`, updatedTodo);
+      setTodos((prevTodos) =>
+        prevTodos.map((todo) =>
+          todo.todo_id === id ? { ...todo, is_checked: !todo.is_checked } : todo
+        )
       );
-      setTodos(updatedTodos); // 상태 업데이트
     } catch (error) {
       console.error("Error toggling todo:", error);
       setError("투두 체크 상태를 변경하는 중 오류가 발생했습니다.");
@@ -84,18 +84,20 @@ const Home = () => {
   };
 
   const handleSave = async (id, editedText) => {
-    // Todo 아이템의 내용 수정
-    const editedTodo = {
-      ...todos.find((todo) => todo.todo_id === id),
-      content: editedText,
-    };
-
     try {
-      await axios.put(`${BASE_URL}/api/todos/${id}`, editedTodo); // API에서 해당 ID의 데이터 업데이트 요청
-      const updatedTodos = todos.map((todo) =>
-        todo.todo_id === id ? editedTodo : todo
+      const editedTodo = {
+        ...todos.find((todo) => todo.todo_id === id),
+        content: editedText,
+      };
+      const response = await axios.patch(
+        `${BASE_URL}/api/todos/${userId}/${id}`,
+        editedTodo
       );
-      setTodos(updatedTodos); // 상태 업데이트
+      setTodos((prevTodos) =>
+        prevTodos.map((todo) =>
+          todo.todo_id === id ? response.data : todo
+        )
+      );
     } catch (error) {
       console.error("Error saving todo:", error);
       setError("투두 내용을 저장하는 중 오류가 발생했습니다.");
@@ -103,18 +105,23 @@ const Home = () => {
   };
 
   const handleEmojiChange = async (id, emoji) => {
-    // Todo 아이템의 이모지 변경
-    const updatedTodo = { ...todos.find((todo) => todo.todo_id === id), emoji };
-
     try {
-      await axios.put(`${BASE_URL}/api/todos/${id}`, updatedTodo); // API에서 해당 ID의 데이터 업데이트 요청
-      const updatedTodos = todos.map((todo) =>
-        todo.todo_id === id ? updatedTodo : todo
+      const editedTodo = {
+        ...todos.find((todo) => todo.todo_id === id),
+        emoji: emoji,
+      };
+      const response = await axios.patch(
+        `${BASE_URL}/api/todos/${userId}/${id}/reviews`,
+        { emoji }
       );
-      setTodos(updatedTodos); // 상태 업데이트
+      setTodos((prevTodos) =>
+        prevTodos.map((todo) =>
+          todo.todo_id === id ? response.data : todo
+        )
+      );
     } catch (error) {
       console.error("Error changing emoji:", error);
-      setError("투두 이모지를 변경하는 중 오류가 발생했습니다.");
+      setError("이모지를 변경하는 중 오류가 발생했습니다.");
     }
   };
 
