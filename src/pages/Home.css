@@ -7,12 +7,18 @@
   justify-content: space-between;
   margin-bottom: 20px;
 }
-.todo-list {
-  border-radius: 18px;
-  background-color: white;
-  width: 100%;
-  height: 400px;
-  box-shadow: rgba(108, 108, 108, 0.285) 0px 0px 30px 0px;
-  padding: 20px;
-  box-sizing: border-box;
+.calendar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.btn-wraaper {
+  display: flex;
+}
+
+.btn-wraaper button {
+  padding: 10px 20px;
+  border-radius: 100px;
 }

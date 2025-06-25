@@ -1,4 +1,5 @@
 .Button {
+  font-size: 14px;
   width: 100%;
   padding: 12px;
   border: none;
@@ -6,7 +7,6 @@
   background-color: #547e55;
   color: white;
   border-radius: 8px;
-  margin-bottom: 20px;
   cursor: pointer;
 }
 
@@ -16,7 +16,12 @@
   color: #547e55;
 }
 
-.Button_DELETE {
-  background-color: #C7DDC8;
+.Button_LIGHT {
+  background-color: #c7ddc8;
   color: #547e55;
+}
+
+.Button_DELETE {
+  background-color: #ffe9e9;
+  color: #dc1e1e;
 }

@@ -14,3 +14,4 @@ export default Button;
 // type: "PRIMARY"
 // type: "SECONDARY"
 // type: "LIGHT"
+// type: "DELETE"

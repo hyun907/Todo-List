@@ -7,22 +7,27 @@
   padding: 10px;
 }
 
+.TodoItem:last-child {
+  border-bottom: none;
+}
+
 .TodoItem .checkbox {
   width: 20px;
+  font-size: 100px;
   margin-left: 10px;
+  cursor: pointer;
 }
 
 .TodoItem .content {
-  font-size: 14px;
-  width: 100%;
+  font-size: 16px;
+  flex: 1;
 }
 
 .TodoItem .button_wrapper {
-  width: 300px;
   display: flex;
-  gap: 20px;
-  margin-right: 10px;
+  gap: 10px;
   align-items: center;
+  margin-left: auto;
 }
 
 .TodoItem .button_wrapper button {
@@ -37,13 +42,26 @@
   width: 40%;
   border: none;
   outline: none;
-  font-size: 14px;
+  font-size: 16px;
   color: #547e55;
   font-weight: 900;
 }
 
+.date-input {
+  border: 1px solid #c7ddc8;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 14px;
+  color: #547e55;
+  outline: none;
+}
+
+.date-input:focus {
+  border-color: #547e55;
+  box-shadow: 0 0 0 2px rgba(84, 126, 85, 0.2);
+}
+
 .emoji-input {
-  width: 80px;
   outline: none;
   border: none;
   background-color: #eaeef1;
@@ -52,14 +70,15 @@
 }
 
 .date {
-  font-size: 12px;
-  color: #cdd1d5;
+  font-size: 14px;
+  color: #aeb2b7;
   text-wrap: nowrap;
 }
 
 .emoji-button {
   background-color: #e7eee7;
-  padding:4px;
-  border-radius:20px;
+  padding: 6px 10px;
+  border-radius: 20px;
   border: 1px solid #bedcbe;
+  cursor: pointer;
 }

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import axios from "axios";
-import Button from "../component/Button";
+import Button from "../component/common/Button";
 import { useNavigate } from "react-router-dom";
+import { registerUser } from "../apis/api/authApi";
 
 const Register = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const nav = useNavigate();
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -17,39 +17,36 @@ const Register = () => {
     setPassword(e.target.value);
   };
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (!username || !password) {
       alert("아이디와 비밀번호를 모두 입력해주세요.");
       return;
     }
 
-    const data = {
-      username: username,
-      password: password,
-    };
+    setIsLoading(true);
 
-    axios
-      .post(`${BASE_URL}/api/users/register`, data)
-      .then((response) => {
-        alert("회원가입 되었습니다.");
-        nav("/");
-      })
-      .catch((error) => {
-        if (error.response) {
-          if (error.response.status === 400 && error.response.data.username) {
-            alert("회원가입 실패: " + error.response.data.username[0]);
-          } else {
-            console.error("Error:", error.response.data);
-            alert("회원가입 실패");
-          }
-        } else if (error.request) {
-          console.error("No response from server:", error.request);
-          alert("서버로부터 응답을 받지 못했습니다.");
+    try {
+      await registerUser({ username, password });
+      alert("회원가입 되었습니다.");
+      nav("/");
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 400 && error.response.data.username) {
+          alert("회원가입 실패: " + error.response.data.username[0]);
         } else {
-          console.error("Request error:", error.message);
-          alert("요청 중 오류가 발생했습니다.");
+          console.error("Error:", error.response.data);
+          alert("회원가입 실패");
         }
-      });
+      } else if (error.request) {
+        console.error("No response from server:", error.request);
+        alert("서버로부터 응답을 받지 못했습니다.");
+      } else {
+        console.error("Request error:", error.message);
+        alert("요청 중 오류가 발생했습니다.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const goLogin = () => {
@@ -86,12 +83,16 @@ const Register = () => {
           </div>
 
           <div className="btnWrap">
-            <Button text="회원가입" onClick={handleRegister}></Button>
+            <Button
+              text={isLoading ? "회원가입 중..." : "회원가입"}
+              onClick={handleRegister}
+              disabled={isLoading}
+            />
             <Button
               text="로그인 페이지로 돌아가기"
               type="SECONDARY"
               onClick={goLogin}
-            ></Button>
+            />
           </div>
         </div>
       </div>
