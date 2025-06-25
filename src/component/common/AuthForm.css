@@ -1,0 +1,50 @@
+.loginPage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -70%);
+  max-height: 400px;
+  height: 100%;
+  width: 100%;
+  max-width: 560px;
+}
+
+.logo {
+  color: white;
+  font-family: "against";
+  font-size: 48px;
+  text-align: center;
+  font-weight: lighter;
+}
+
+.loginText {
+  color: white;
+  font-family: "Pretendard-regular";
+  text-align: center;
+  margin-top: -10px;
+  margin-bottom: 30px;
+}
+
+.login {
+  border-radius: 12px;
+  max-height: 400px;
+  height: 100%;
+  background-color: white;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  padding: 0 30px;
+  box-shadow: rgba(108, 108, 108, 0.285) 0px 0px 30px 0px;
+  gap: 100px;
+}
+
+.contentWrap {
+  padding-top: 26px;
+}
+
+.btnWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}

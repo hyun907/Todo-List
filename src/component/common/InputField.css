@@ -1,0 +1,30 @@
+.inputTitle {
+  font-size: 14px;
+  font-family: "Pretendard-Medium";
+  color: #191a1c;
+  margin-top: 16px;
+}
+
+.inputWrap {
+  display: flex;
+  border-radius: 8px;
+  padding: 8px;
+  margin-top: 8px;
+  background-color: white;
+  border: 1px solid #bec0c6;
+}
+
+.inputWrap:focus-within {
+  border: 1px solid #547e55;
+}
+
+.input {
+  width: 100%;
+  outline: none;
+  border: none;
+  font-size: 12px;
+}
+
+.input::placeholder {
+  color: #dadada;
+}

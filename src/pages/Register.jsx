@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import Button from "../component/common/Button";
 import { useNavigate } from "react-router-dom";
+import AuthForm from "../component/common/AuthForm";
+import { useAuthError } from "../hooks/useAuthError";
 import { registerUser } from "../apis/api/authApi";
 
 const Register = () => {
@@ -8,14 +9,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const nav = useNavigate();
-
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
+  const { handleAuthError } = useAuthError();
 
   const handleRegister = async () => {
     if (!username || !password) {
@@ -30,20 +24,7 @@ const Register = () => {
       alert("회원가입 되었습니다.");
       nav("/");
     } catch (error) {
-      if (error.response) {
-        if (error.response.status === 400 && error.response.data.username) {
-          alert("회원가입 실패: " + error.response.data.username[0]);
-        } else {
-          console.error("Error:", error.response.data);
-          alert("회원가입 실패");
-        }
-      } else if (error.request) {
-        console.error("No response from server:", error.request);
-        alert("서버로부터 응답을 받지 못했습니다.");
-      } else {
-        console.error("Request error:", error.message);
-        alert("요청 중 오류가 발생했습니다.");
-      }
+      handleAuthError(error, "register");
     } finally {
       setIsLoading(false);
     }
@@ -54,49 +35,19 @@ const Register = () => {
   };
 
   return (
-    <>
-      <div className="loginPage">
-        <h1 className="logo">Plan T</h1>
-        <p className="loginText">나만의 일정관리 서비스</p>
-        <div className="login">
-          <div className="contentWrap">
-            <div className="inputTitle">아이디</div>
-            <div className="inputWrap">
-              <input
-                className="input"
-                placeholder="아이디를 입력하세요"
-                value={username}
-                onChange={handleUsernameChange}
-              />
-            </div>
-
-            <div className="inputTitle">비밀번호</div>
-            <div className="inputWrap">
-              <input
-                type="password"
-                className="input"
-                placeholder="비밀번호를 입력하세요"
-                value={password}
-                onChange={handlePasswordChange}
-              />
-            </div>
-          </div>
-
-          <div className="btnWrap">
-            <Button
-              text={isLoading ? "회원가입 중..." : "회원가입"}
-              onClick={handleRegister}
-              disabled={isLoading}
-            />
-            <Button
-              text="로그인 페이지로 돌아가기"
-              type="SECONDARY"
-              onClick={goLogin}
-            />
-          </div>
-        </div>
-      </div>
-    </>
+    <AuthForm
+      title="Plan T"
+      subtitle="나만의 일정관리 서비스"
+      primaryButtonText="회원가입"
+      secondaryButtonText="로그인 페이지로 돌아가기"
+      isLoading={isLoading}
+      onPrimaryClick={handleRegister}
+      onSecondaryClick={goLogin}
+      username={username}
+      password={password}
+      onUsernameChange={(e) => setUsername(e.target.value)}
+      onPasswordChange={(e) => setPassword(e.target.value)}
+    />
   );
 };
 
