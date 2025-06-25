@@ -1,6 +1,6 @@
 import React from "react";
 import InputField from "./InputField";
-import Button from "./Button";
+import Button from "../../common/Button";
 import "./AuthForm.css";
 
 const AuthForm = ({

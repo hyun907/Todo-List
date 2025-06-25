@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthForm from "../component/common/AuthForm";
+import AuthForm from "../component/domain/auth/AuthForm";
 import { useAuthError } from "../hooks/useAuthError";
 import { registerUser } from "../apis/api/authApi";
 
