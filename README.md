@@ -1,6 +1,9 @@
 # 📝 Plan T - 나만의 일정관리 서비스
+<img width="1298" alt="스크린샷 2025-06-26 오전 4 34 25" src="https://github.com/user-attachments/assets/7f249a25-3372-48f6-8dee-8bcdb6366931" />
+<img width="1278" alt="스크린샷 2025-06-26 오전 4 35 13" src="https://github.com/user-attachments/assets/bab063bd-7f4a-492e-ae68-36359ed5dc5c" />
+<img width="1277" alt="스크린샷 2025-06-26 오전 4 40 26" src="https://github.com/user-attachments/assets/9dc96505-7565-49e7-bbcb-101b213dfa82" />
 
-Plan T는 개인 맞춤형 일정 관리 서비스입니다. 사용자는 할 일을 추가하고, 날짜별로 관리하며, 완료 상태를 체크할 수 있습니다.
+Plan T는 개인 맞춤형 일정 관리 서비스입니다. 할 일을 추가하고, 날짜별로 관리하며, 완료 상태를 체크할 수 있습니다.
 
 ## ✨ 주요 기능
 
