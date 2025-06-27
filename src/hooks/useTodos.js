@@ -116,8 +116,19 @@ export const useTodos = (userId) => {
   };
 
   // 투두 채크하기
-  const checkTodoComplete = async (id) => {
-    await checkTodo({ userId, todoId: id });
+  const checkTodoComplete = async (id, currentChecked) => {
+    // null이나 undefined 값을 false로 처리하고 boolean으로 변환
+    const currentCheckedBool = Boolean(currentChecked);
+    const newChecked = !currentCheckedBool;
+
+    console.log("체크 상태 변경:", {
+      todoId: id,
+      currentChecked,
+      currentCheckedBool,
+      newChecked,
+    });
+
+    await checkTodo({ userId, todoId: id, isChecked: newChecked });
     if (selectedDate) {
       loadTodosByDate(selectedDate.month, selectedDate.day);
     } else {

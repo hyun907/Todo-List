@@ -43,7 +43,7 @@ const TodoItem = ({ todo, onRemove, onSave, onToggle, onEmojiChange }) => {
         className="checkbox"
         type="checkbox"
         checked={is_checked}
-        onChange={() => onToggle(todo_id)}
+        onChange={() => onToggle(todo_id, is_checked)}
         style={{ zoom: "1.5", accentColor: "green" }}
       />
 

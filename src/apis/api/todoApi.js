@@ -16,7 +16,7 @@ export const fetchTodosByDate = async (userId, month, day) => {
 
 // 투두 작성
 export const addTodo = async ({ userId, todo }) => {
-  const { data } = await axios.post(`/api/todos/${userId}`, todo);
+  const { data } = await axios.post(`/api/todos/${userId}/`, todo);
   return data;
 };
 
@@ -28,7 +28,7 @@ export const editTodo = async ({ userId, todoId, date, content }) => {
   }
 
   const { data } = await axios.patch(
-    `/api/todos/${userId}/${todoId}`,
+    `/api/todos/${userId}/${todoId}/`,
     updateData
   );
   return data;
@@ -36,19 +36,22 @@ export const editTodo = async ({ userId, todoId, date, content }) => {
 
 // 투두 삭제
 export const deleteTodo = async ({ userId, todoId }) => {
-  await axios.delete(`/api/todos/${userId}/${todoId}`);
+  await axios.delete(`/api/todos/${userId}/${todoId}/`);
   return todoId;
 };
 
 // 투두 완료
-export const checkTodo = async ({ userId, todoId }) => {
-  const { data } = await axios.patch(`/api/todos/${userId}/${todoId}/check`);
+export const checkTodo = async ({ userId, todoId, isChecked }) => {
+  const { data } = await axios.patch(`/api/todos/${userId}/${todoId}/check/`, {
+    is_checked: isChecked,
+  });
+
   return data;
 };
 
 // 투두 리뷰
 export const reviewTodo = async ({ userId, todoId, emoji }) => {
-  const { data } = await axios.patch(`/api/todos/${userId}/${todoId}/reviews`, {
+  const { data } = await axios.patch(`/api/todos/${userId}/${todoId}/review/`, {
     emoji,
   });
   return data;
